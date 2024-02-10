@@ -19,7 +19,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   void submit() {
     CacheHelper.saveData(key: 'onBoarding', value: true).then((value) {
       if (value) {
-        moveToAndFinish(context, LogIn());
+        navigateToAndFinish(context, LogIn());
       }
     });
   }
@@ -35,7 +35,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             },
             child: const Text(
               'SKIP',
-              style: TextStyle(color: defualtColor2),
+              style: TextStyle(color: primaryColor),
             ),
           ),
         ],
@@ -75,10 +75,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         dotColor: Colors.grey,
                         dotHeight: 10,
                         dotWidth: 10,
-                        activeDotColor: defualtColor2)),
+                        activeDotColor: primaryColor)),
                 FloatingActionButton(
                   shape: const CircleBorder(),
-                  backgroundColor: defualtColor2,
+                  backgroundColor: primaryColor,
                   onPressed: () {
                     isLast
                         ? submit()

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/cubit.dart';
-import 'package:shop_app/cubit/states.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
+import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/modules/search_page.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/constants/colors.dart';
@@ -21,12 +21,12 @@ class ShopLayout extends StatelessWidget {
             title: const Text(
               'Shop App',
               style:
-                  TextStyle(fontWeight: FontWeight.bold, color: defualtColor2),
+                  TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
             ),
             actions: [
               IconButton(
                 onPressed: () {
-                  moveTo(context, const SearchPage());
+                  navigateTo(context, SearchPage());
                 },
                 icon: const Icon(Icons.search),
               )
@@ -52,7 +52,7 @@ class ShopLayout extends StatelessWidget {
                 showUnselectedLabels: true,
                 currentIndex: cubit.curentindex,
                 unselectedItemColor: Colors.grey,
-                selectedItemColor: defualtColor2,
+                selectedItemColor: primaryColor,
                 onTap: (index) {
                   cubit.changeeNavBar(index);
                 },
@@ -67,8 +67,8 @@ class ShopLayout extends StatelessWidget {
                   BottomNavigationBarItem(
                       icon: Icon(Icons.favorite), label: 'Favorites'),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: 'Settings',
+                    icon: Icon(Icons.person),
+                    label: 'Profile',
                   ),
                 ],
               ),

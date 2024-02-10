@@ -49,19 +49,31 @@ class GetFavoriteErrorState extends ShopStates {}
 class GetUserDataLodingState extends ShopStates {}
 
 class GetUserDatasuccessState extends ShopStates {
- final LoginModel model;
+  final LoginModel model;
 
   GetUserDatasuccessState(this.model);
 }
-class  GetUserDataErrorState extends ShopStates {}
+
+class GetUserDataErrorState extends ShopStates {}
 
 class RegisterErrorState extends ShopStates {}
 
 class RegisterLodingState extends ShopStates {}
 
-class RegistersuccessState extends ShopStates {
- final LoginModel? registermodel;
+class RegisterSuccessState extends ShopStates {
+  final LoginModel? registermodel;
 
-  RegistersuccessState(this.registermodel);
+  RegisterSuccessState(this.registermodel);
 }
 
+class UpdateUserDataErrorState extends ShopStates {}
+
+class UpdateUserDataLodingState extends ShopStates {}
+
+class UpdateUserDataSuccessState extends ShopStates {}
+
+class SearchProductErrorState extends ShopStates {}
+
+class SearchProductLodingState extends ShopStates {}
+
+class SearchProductSuccessState extends ShopStates {}

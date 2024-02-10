@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/cubit.dart';
-import 'package:shop_app/cubit/states.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
+import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
 import 'package:shop_app/shared/components/components.dart';
@@ -17,9 +17,11 @@ class ProductsPage extends StatelessWidget {
       listener: (context, state) {
         if (state is FavoritessuccessState) {
           if (!state.model.status) {
-            showToast(msg: state.model.message, toastState: ChoseState.error);
+            showToast(
+                massage: state.model.message, toastState: ChoseState.error);
           } else {
-            showToast(msg: state.model.message, toastState: ChoseState.success);
+            showToast(
+                massage: state.model.message, toastState: ChoseState.success);
           }
         }
       },
@@ -40,13 +42,23 @@ class ProductsPage extends StatelessWidget {
         children: [
           CarouselSlider(
               items: model!.data.banners
-                  .map(
-                    (e) => Image(
-                      image: NetworkImage(e.image),
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                  )
+                  .map((e) => Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    e.image,
+                                  ),
+                                )),
+                          )
+                      // Image(
+                      //   image: NetworkImage(e.image,),
+                      //   width: double.infinity,
+                      //   fit: BoxFit.cover,
+                      // ),
+                      )
                   .toList(),
               options: CarouselOptions(
                 height: 200,
@@ -64,7 +76,7 @@ class ProductsPage extends StatelessWidget {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -73,7 +85,7 @@ class ProductsPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: defualtColor2,
+                    color: primaryColor,
                   ),
                 ),
                 const SizedBox(
@@ -100,7 +112,7 @@ class ProductsPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: defualtColor2,
+                    color: primaryColor,
                   ),
                 ),
               ],
@@ -175,10 +187,10 @@ class ProductsPage extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      ' ${productmodel.price.round()}',
+                      ' ${productmodel.price.round()}\$',
                       style: const TextStyle(
                         fontSize: 12,
-                        color: defualtColor2,
+                        color: primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -187,7 +199,7 @@ class ProductsPage extends StatelessWidget {
                     ),
                     if (productmodel.discount != 0)
                       Text(
-                        ' ${productmodel.oldPrice.round()}',
+                        ' ${productmodel.oldPrice.round()}\$',
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
@@ -205,7 +217,7 @@ class ProductsPage extends StatelessWidget {
                             color: Shopcubit.get(context)
                                         .favorites[productmodel.id] ??
                                     false
-                                ? Colors.red
+                                ? Colors.redAccent[700]
                                 : null,
                             Shopcubit.get(context).favorites[productmodel.id] ??
                                     false

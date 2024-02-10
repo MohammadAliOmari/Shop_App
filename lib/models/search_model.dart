@@ -1,37 +1,35 @@
 // To parse this JSON data, do
 //
-//     final getFavoriteModel = getFavoriteModelFromJson(jsonString);
+//     final searchModel = searchModelFromJson(jsonString);
 
 import 'dart:convert';
 
-GetFavoriteModel getFavoriteModelFromJson(String str) =>
-    GetFavoriteModel.fromJson(json.decode(str));
+SearchModel searchModelFromJson(String str) =>
+    SearchModel.fromJson(json.decode(str));
 
-String getFavoriteModelToJson(GetFavoriteModel data) =>
-    json.encode(data.toJson());
+String searchModelToJson(SearchModel data) => json.encode(data.toJson());
 
-class GetFavoriteModel {
+class SearchModel {
   bool? status;
   dynamic message;
   Data? data;
 
-  GetFavoriteModel({
+  SearchModel({
     this.status,
     this.message,
     this.data,
   });
 
-  factory GetFavoriteModel.fromJson(Map<String, dynamic> json) =>
-      GetFavoriteModel(
+  factory SearchModel.fromJson(Map<String, dynamic> json) => SearchModel(
         status: json["status"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": data!.toJson(),
+        "data": data?.toJson(),
       };
 }
 
@@ -66,7 +64,9 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         currentPage: json["current_page"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -81,7 +81,9 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
         "first_page_url": firstPageUrl,
         "from": from,
         "last_page": lastPage,
@@ -96,61 +98,48 @@ class Data {
 }
 
 class Datum {
-  int id;
-  Product product;
+  int? id;
+  double? price;
+  String? image;
+  String? name;
+  String? description;
+  List<String>? images;
+  bool? inFavorites;
+  bool? inCart;
 
   Datum({
-    required this.id,
-    required this.product,
+    this.id,
+    this.price,
+    this.image,
+    this.name,
+    this.description,
+    this.images,
+    this.inFavorites,
+    this.inCart,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
-        product: Product.fromJson(json["product"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "product": product.toJson(),
-      };
-}
-
-class Product {
-  int id;
-  int price;
-  int oldPrice;
-  int discount;
-  String image;
-  String name;
-  String description;
-
-  Product({
-    required this.id,
-    required this.price,
-    required this.oldPrice,
-    required this.discount,
-    required this.image,
-    required this.name,
-    required this.description,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
-        price: json["price"],
-        oldPrice: json["old_price"],
-        discount: json["discount"],
+        price: json["price"]?.toDouble(),
         image: json["image"],
         name: json["name"],
         description: json["description"],
+        images: json["images"] == null
+            ? []
+            : List<String>.from(json["images"]!.map((x) => x)),
+        inFavorites: json["in_favorites"],
+        inCart: json["in_cart"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "price": price,
-        "old_price": oldPrice,
-        "discount": discount,
         "image": image,
         "name": name,
         "description": description,
+        "images":
+            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "in_favorites": inFavorites,
+        "in_cart": inCart,
       };
 }

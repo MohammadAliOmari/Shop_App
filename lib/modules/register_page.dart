@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/cubit.dart';
-import 'package:shop_app/cubit/states.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
+import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/layout/shop_layout.dart';
 import 'package:shop_app/modules/login_page.dart';
+import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/constants/colors.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
@@ -13,7 +16,7 @@ import '../shared/constants/constants.dart';
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
 
-  final TextEditingController emailcontroller = TextEditingController();
+  final TextEditingController remailcontroller = TextEditingController();
 
   final TextEditingController passwordcontroller = TextEditingController();
   final TextEditingController namecontroller = TextEditingController();
@@ -25,25 +28,22 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<Shopcubit, ShopStates>(
       listener: (context, state) {
-        if (state is RegistersuccessState) {
+        if (state is RegisterSuccessState) {
           if (state.registermodel!.status!) {
-            print(state.registermodel!.message);
-            print(state.registermodel!.data!.token);
             CacheHelper.saveData(
-                key: 'token', value: state.registermodel!.data!.token)
+                    key: 'token', value: state.registermodel!.data!.token)
                 .then((value) {
-              token=state.registermodel!.data!.token;
-              moveToAndFinish(context, const ShopLayout());
+              token = state.registermodel!.data!.token;
+              showToast(
+                massage: state.registermodel!.message!,
+                toastState: ChoseState.success,
+              );
+              navigateToAndFinish(context, const ShopLayout());
             });
-            showToast(
-              msg: state.registermodel!.message!,
-              toastState: ChoseState.success,
-            );
           } else {
             print(state.registermodel!.message);
-
             showToast(
-              msg: state.registermodel!.message!,
+              massage: state.registermodel!.message!,
               toastState: ChoseState.error,
             );
           }
@@ -80,14 +80,14 @@ class RegisterPage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  defualtTxtForm(
-                    iconColor: defualtColor2,
+                  defualtTextForm(
+                    iconColor: primaryColor,
                     controller: namecontroller,
                     type: TextInputType.text,
                     label: 'Name',
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return ' enter your name';
+                        return 'enter your name';
                       }
                       return null;
                     },
@@ -97,14 +97,14 @@ class RegisterPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  defualtTxtForm(
-                    iconColor: defualtColor2,
+                  defualtTextForm(
+                    iconColor: primaryColor,
                     controller: phonecontroller,
                     type: TextInputType.number,
                     label: 'Phone',
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return ' enter your phone number';
+                        return 'enter your phone number';
                       }
                       return null;
                     },
@@ -114,9 +114,9 @@ class RegisterPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  defualtTxtForm(
-                    iconColor: defualtColor2,
-                    controller: emailcontroller,
+                  defualtTextForm(
+                    iconColor: primaryColor,
+                    controller: remailcontroller,
                     type: TextInputType.emailAddress,
                     label: 'Email Address',
                     validator: (value) {
@@ -131,8 +131,8 @@ class RegisterPage extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  defualtTxtForm(
-                    iconColor: defualtColor2,
+                  defualtTextForm(
+                    iconColor: primaryColor,
                     controller: passwordcontroller,
                     type: TextInputType.visiblePassword,
                     label: 'Passowrd',
@@ -148,9 +148,7 @@ class RegisterPage extends StatelessWidget {
                     suffixFunction: () {
                       Shopcubit.get(context).changePasswordVisibility();
                     },
-                    onSubmitted: (value) {
-
-                    },
+                    onSubmitted: (value) {},
                     radius: 20,
                   ),
                   const SizedBox(
@@ -162,11 +160,14 @@ class RegisterPage extends StatelessWidget {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               Shopcubit.get(context).userRegister(
-                                  name: namecontroller.text.trim(),
-                                  phone: phonecontroller.text.trim(),
-                                  email: emailcontroller.text.trim(),
-                                  password: passwordcontroller.text.trim());
-
+                                  name: namecontroller.text,
+                                  phone: phonecontroller.text,
+                                  email: remailcontroller.text,
+                                  password: passwordcontroller.text);
+                              log(namecontroller.text);
+                              log(phonecontroller.text);
+                              log(remailcontroller.text);
+                              log(passwordcontroller.text);
                             }
                           },
                           raduis: 10,
@@ -178,11 +179,11 @@ class RegisterPage extends StatelessWidget {
                       const Text('already have an account ?'),
                       TextButton(
                           onPressed: () {
-                            moveTo(context, LogIn());
+                            navigateTo(context, LogIn());
                           },
                           child: const Text(
                             'Login',
-                            style: TextStyle(color: defualtColor2),
+                            style: TextStyle(color: primaryColor),
                           ))
                     ],
                   ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/cubit.dart';
-import 'package:shop_app/cubit/states.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
+import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/layout/shop_layout.dart';
 import 'package:shop_app/modules/register_page.dart';
 import 'package:shop_app/shared/components/components.dart';
@@ -30,17 +30,17 @@ class LogIn extends StatelessWidget {
             CacheHelper.saveData(
                     key: 'token', value: state.loginModel!.data!.token)
                 .then((value) {
-              moveToAndFinish(context, const ShopLayout());
+              token = state.loginModel!.data!.token;
+              navigateToAndFinish(context, const ShopLayout());
+              showToast(
+                massage: state.loginModel!.message!,
+                toastState: ChoseState.success,
+              );
             });
-            showToast(
-              msg: state.loginModel!.message!,
-              toastState: ChoseState.success,
-            );
           } else {
             print(state.loginModel!.message);
-
             showToast(
-              msg: state.loginModel!.message!,
+              massage: state.loginModel!.message!,
               toastState: ChoseState.error,
             );
           }
@@ -77,8 +77,8 @@ class LogIn extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  defualtTxtForm(
-                    iconColor: defualtColor2,
+                  defualtTextForm(
+                    iconColor: primaryColor,
                     controller: emailcontroller,
                     type: TextInputType.emailAddress,
                     label: 'Email Address',
@@ -94,8 +94,8 @@ class LogIn extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  defualtTxtForm(
-                    iconColor: defualtColor2,
+                  defualtTextForm(
+                    iconColor: primaryColor,
                     controller: passwordcontroller,
                     type: TextInputType.visiblePassword,
                     label: 'Passowrd',
@@ -113,9 +113,9 @@ class LogIn extends StatelessWidget {
                     },
                     onSubmitted: (value) {
                       if (formKey.currentState!.validate()) {
-                        Shopcubit.get(context).userLogin(
-                            email: emailcontroller.text,
-                            password: passwordcontroller.text);
+                        // Shopcubit.get(context).userLogin(
+                        //     email: emailcontroller.text,
+                        //     password: passwordcontroller.text);
                       }
                     },
                     radius: 20,
@@ -142,11 +142,11 @@ class LogIn extends StatelessWidget {
                       const Text('Dont\'t have an account ?'),
                       TextButton(
                           onPressed: () {
-                            moveTo(context,  RegisterPage());
+                            navigateTo(context, RegisterPage());
                           },
                           child: const Text(
                             'Register',
-                            style: TextStyle(color: defualtColor2),
+                            style: TextStyle(color: primaryColor),
                           ))
                     ],
                   ),

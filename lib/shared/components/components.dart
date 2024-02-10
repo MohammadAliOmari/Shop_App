@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/models/get_favorite_model.dart';
 import 'package:shop_app/shared/constants/colors.dart';
+import 'package:shop_app/shared/cubit/cubit.dart';
 
 Widget defualtButton({
   double width = double.infinity,
   double? height,
-  Color color = defualtColor2,
+  Color color = primaryColor,
   Color fontColor = Colors.white,
   double fontSize = 20,
   bool isUpperCase = true,
@@ -32,7 +34,7 @@ Widget defualtButton({
     );
 
 //TextFormField
-Widget defualtTxtForm({
+Widget defualtTextForm({
   //carefull
   required TextEditingController controller,
   required TextInputType type,
@@ -71,7 +73,7 @@ Widget defualtTxtForm({
           fillColor: textFormColor,
           label: Text(label,
               style: TextStyle(
-                color: defualtColor2,
+                color: primaryColor,
                 fontSize: labelFontSize,
                 fontWeight: fontWeight,
               )),
@@ -103,22 +105,22 @@ Widget myDivider() => Padding(
     );
 
 //navigator.push
-void moveTo(context, widget) => Navigator.push(
+void navigateTo(context, widget) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => widget),
     );
-void moveToAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(
-      builder: (context) => widget,
-    ),
-    (route) => false);
+void navigateToAndFinish(context, widget) => Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+    );
 void showToast({
-  required String msg,
+  required String massage,
   required ChoseState toastState,
 }) =>
     Fluttertoast.showToast(
-        msg: msg,
+        msg: massage,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 5,
@@ -143,4 +145,100 @@ Color chooseColor(ChoseState state) {
       break;
   }
   return color;
+}
+
+Widget productitem(model, BuildContext context, {bool isSearch = true}) {
+  return Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: SizedBox(
+      height: 120,
+      child: Row(
+        children: [
+          Stack(
+            alignment: Alignment.bottomLeft,
+            children: [
+              Image(
+                image: NetworkImage(model.image),
+                width: 120,
+                height: 120,
+              ),
+              if (isSearch && model?.discount != 0)
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.redAccent[700],
+                      borderRadius: BorderRadius.circular(10)),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: const Text(
+                    'DISCOUNT',
+                    style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                )
+            ],
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  model.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    height: 1.3,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    Text(
+                      '${model.price.round()}\$',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    if (isSearch && model?.discount != 0)
+                      Text(
+                        '${model.oldPrice.round()}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        Shopcubit.get(context).changeFavorite(model.id);
+                      },
+                      icon: Icon(
+                          color: Shopcubit.get(context).favorites[model.id] ??
+                                  false
+                              ? Colors.redAccent[700]
+                              : null,
+                          Shopcubit.get(context).favorites[model.id] ?? false
+                              ? Icons.favorite
+                              : Icons.favorite_border_outlined),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
