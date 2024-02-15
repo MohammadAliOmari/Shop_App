@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/models/get_favorite_model.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/constants/colors.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';

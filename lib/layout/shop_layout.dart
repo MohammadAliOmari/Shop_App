@@ -4,7 +4,6 @@ import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/modules/search_page.dart';
 import 'package:shop_app/shared/components/components.dart';
-import 'package:shop_app/shared/constants/colors.dart';
 
 class ShopLayout extends StatelessWidget {
   const ShopLayout({super.key});
@@ -16,58 +15,58 @@ class ShopLayout extends StatelessWidget {
       builder: (context, state) {
         Shopcubit cubit = Shopcubit.get(context);
         return Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBody: true,
           appBar: AppBar(
+            scrolledUnderElevation: 0,
+            backgroundColor: Colors.transparent,
             elevation: 0,
             title: const Text(
               'Shop App',
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             actions: [
               IconButton(
                 onPressed: () {
                   navigateTo(context, SearchPage());
                 },
-                icon: const Icon(Icons.search),
+                icon: const Icon(
+                  Icons.search,
+                ),
               )
             ],
           ),
           body: cubit.screens[cubit.curentindex],
-          bottomNavigationBar: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.black12.withOpacity(0),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.6),
-                    blurRadius: 25,
-                    offset: const Offset(10, 20))
-              ],
-            ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: BottomNavigationBar(
                 elevation: 0,
-                backgroundColor: Colors.black12.withOpacity(0),
+                backgroundColor: Colors.transparent,
                 showUnselectedLabels: true,
                 currentIndex: cubit.curentindex,
                 unselectedItemColor: Colors.grey,
-                selectedItemColor: primaryColor,
+                selectedItemColor: Colors.white,
                 onTap: (index) {
                   cubit.changeeNavBar(index);
                 },
-                items: const [
+                items: [
                   BottomNavigationBarItem(
-                      backgroundColor: Colors.white,
-                      icon: Icon(Icons.home),
+                      backgroundColor: const Color(0xFF022082).withOpacity(0.9),
+                      icon: const Icon(Icons.home),
                       label: 'Home'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.account_tree_outlined),
+                      backgroundColor: const Color(0xFF022082).withOpacity(0.9),
+                      icon: const Icon(Icons.account_tree_outlined),
                       label: 'Categories'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.favorite), label: 'Favorites'),
+                      backgroundColor: const Color(0xFF022082).withOpacity(0.9),
+                      icon: const Icon(Icons.favorite),
+                      label: 'Favorites'),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
+                    backgroundColor: const Color(0xFF022082).withOpacity(0.9),
+                    icon: const Icon(Icons.person),
                     label: 'Profile',
                   ),
                 ],

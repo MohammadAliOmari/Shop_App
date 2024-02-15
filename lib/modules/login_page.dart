@@ -25,8 +25,8 @@ class LogIn extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginSuccessState) {
           if (state.loginModel!.status!) {
-            print(state.loginModel!.message);
-            print(state.loginModel!.data!.token);
+            debugPrint(state.loginModel!.message);
+            debugPrint(state.loginModel!.data!.token);
             CacheHelper.saveData(
                     key: 'token', value: state.loginModel!.data!.token)
                 .then((value) {
@@ -38,7 +38,7 @@ class LogIn extends StatelessWidget {
               );
             });
           } else {
-            print(state.loginModel!.message);
+            debugPrint(state.loginModel!.message);
             showToast(
               massage: state.loginModel!.message!,
               toastState: ChoseState.error,
@@ -113,9 +113,9 @@ class LogIn extends StatelessWidget {
                     },
                     onSubmitted: (value) {
                       if (formKey.currentState!.validate()) {
-                        // Shopcubit.get(context).userLogin(
-                        //     email: emailcontroller.text,
-                        //     password: passwordcontroller.text);
+                        Shopcubit.get(context).userLogin(
+                            email: emailcontroller.text,
+                            password: passwordcontroller.text);
                       }
                     },
                     radius: 20,

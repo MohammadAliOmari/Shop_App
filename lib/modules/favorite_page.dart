@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
-import 'package:shop_app/models/get_favorite_model.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/constants/colors.dart';
 
@@ -16,39 +15,34 @@ class FavoritePage extends StatelessWidget {
       builder: (context, state) {
         Shopcubit cubit = Shopcubit.get(context);
         return cubit.getFavoriteModel!.data?.data?.isEmpty ?? true
-            ? Column(
+            ? const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Center(
+                  Center(
                     child: Text(
-                      'No Favorites Item yet',
+                      'No Favorites Item found',
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: primaryColor),
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.redAccent[700],
-                    size: 60,
-                    shadows: const [
-                      Shadow(
-                          color: Colors.black,
-                          blurRadius: 20,
-                          offset: Offset(2, 5))
-                    ],
-                  )
+                  Image(
+                    image: AssetImage(
+                      'assets/love.gif',
+                    ),
+                    width: 150,
+                  ),
                 ],
               )
             : ListView.separated(
                 itemBuilder: (context, index) => productitem(
                     cubit.getFavoriteModel!.data!.data![index].product,
                     context),
-                separatorBuilder: (context, index) => myDivider(),
+                separatorBuilder: (context, index) => const SizedBox(),
                 itemCount: cubit.getFavoriteModel!.data?.data?.length ?? 0);
       },
     );

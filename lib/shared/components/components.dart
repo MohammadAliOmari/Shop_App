@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shop_app/models/get_favorite_model.dart';
 import 'package:shop_app/shared/constants/colors.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 
@@ -150,7 +149,15 @@ Color chooseColor(ChoseState state) {
 Widget productitem(model, BuildContext context, {bool isSearch = true}) {
   return Padding(
     padding: const EdgeInsets.all(20.0),
-    child: SizedBox(
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+                color: Colors.black, blurRadius: 20, offset: Offset(-4, 10))
+          ]),
       height: 120,
       child: Row(
         children: [
@@ -163,17 +170,22 @@ Widget productitem(model, BuildContext context, {bool isSearch = true}) {
                 height: 120,
               ),
               if (isSearch && model?.discount != 0)
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.redAccent[700],
-                      borderRadius: BorderRadius.circular(10)),
+                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: const Text(
-                    'DISCOUNT',
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFD50000),
+                        borderRadius: BorderRadius.circular(10)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                    ),
+                    child: const Text(
+                      'DISCOUNT',
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
                 )
             ],

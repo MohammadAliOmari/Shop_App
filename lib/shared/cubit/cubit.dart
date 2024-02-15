@@ -106,12 +106,12 @@ class Shopcubit extends Cubit<ShopStates> {
       homeModel = HomeModel.fromJson(value.data);
       print(homeModel!.data.banners[0].image);
       print(homeModel!.data.products[0].inFavorites);
-      if (homeModel!.data.products.isNotEmpty)
-        homeModel!.data.products.forEach(
-          (element) {
-            favorites.addAll({element.id: element.inFavorites});
-          },
-        );
+      if (homeModel!.data.products.isNotEmpty) {
+        for (var element in homeModel!.data.products) {
+          favorites.addAll({element.id: element.inFavorites});
+        }
+      }
+
       emit(HomesuccessState());
     }).catchError((error) {
       emit(HomeErrorState());

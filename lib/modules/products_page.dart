@@ -43,22 +43,16 @@ class ProductsPage extends StatelessWidget {
           CarouselSlider(
               items: model!.data.banners
                   .map((e) => Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    e.image,
-                                  ),
-                                )),
-                          )
-                      // Image(
-                      //   image: NetworkImage(e.image,),
-                      //   width: double.infinity,
-                      //   fit: BoxFit.cover,
-                      // ),
-                      )
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                e.image,
+                              ),
+                            )),
+                      ))
                   .toList(),
               options: CarouselOptions(
                 height: 200,
@@ -66,7 +60,7 @@ class ProductsPage extends StatelessWidget {
                 enableInfiniteScroll: true,
                 reverse: false,
                 autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 5),
+                autoPlayInterval: const Duration(seconds: 2),
                 autoPlayAnimationDuration: const Duration(seconds: 2),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 scrollDirection: Axis.horizontal,
@@ -80,19 +74,34 @@ class ProductsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Categories',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor,
-                  ),
+                Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
+                    const Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: const [
+                            BoxShadow(blurRadius: 10, color: Colors.black)
+                          ]),
+                      height: 5,
+                      width: 50,
+                    ),
+                  ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 SizedBox(
-                  height: 110,
+                  height: 130,
                   child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
@@ -105,30 +114,45 @@ class ProductsPage extends StatelessWidget {
                       itemCount: categoriesModel!.data.data.length),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
-                const Text(
-                  'New Product',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor,
-                  ),
+                Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
+                    const Text(
+                      'New Product',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: const [
+                            BoxShadow(blurRadius: 10, color: Colors.black)
+                          ]),
+                      height: 5,
+                      width: 50,
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
           Container(
-            color: Colors.grey[300],
+            color: Colors.white,
             child: GridView.count(
               childAspectRatio: 1 / 1.6,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              mainAxisSpacing: 3,
-              crossAxisSpacing: 2,
+              mainAxisSpacing: 1,
+              crossAxisSpacing: 3,
               crossAxisCount: 2,
               children: List.generate(model.data.products.length, (index) {
                 return buildProductItem(model.data.products[index], context);
@@ -141,94 +165,106 @@ class ProductsPage extends StatelessWidget {
   }
 
   Widget buildProductItem(Product productmodel, context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            alignment: Alignment.bottomLeft,
-            children: [
-              Image(
-                image: NetworkImage(productmodel.image),
-                width: double.infinity,
-                height: 200,
-              ),
-              if (productmodel.discount != 0)
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(10)),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: const Text(
-                    'DISCOUNT',
-                    style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        decoration: BoxDecoration(boxShadow: const [
+          BoxShadow(color: Colors.black, blurRadius: 20, offset: Offset(-4, 10))
+        ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: Alignment.bottomLeft,
               children: [
-                Text(
-                  productmodel.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    height: 1.3,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      ' ${productmodel.price.round()}\$',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    if (productmodel.discount != 0)
-                      Text(
-                        ' ${productmodel.oldPrice.round()}\$',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.lineThrough,
+                Container(
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          productmodel.image,
                         ),
                       ),
-                    const Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          Shopcubit.get(context)
-                              .changeFavorite(productmodel.id);
-                        },
-                        icon: Icon(
-                            color: Shopcubit.get(context)
-                                        .favorites[productmodel.id] ??
-                                    false
-                                ? Colors.redAccent[700]
-                                : null,
-                            Shopcubit.get(context).favorites[productmodel.id] ??
-                                    false
-                                ? Icons.favorite
-                                : Icons.favorite_border_outlined))
-                  ],
+                      borderRadius: BorderRadius.circular(20)),
                 ),
+                if (productmodel.discount != 0)
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10)),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: const Text(
+                      'DISCOUNT',
+                      style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  )
               ],
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    productmodel.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      height: 1.3,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        ' ${productmodel.price.round()}\$',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      if (productmodel.discount != 0)
+                        Text(
+                          ' ${productmodel.oldPrice.round()}\$',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      const Spacer(),
+                      IconButton(
+                          onPressed: () {
+                            Shopcubit.get(context)
+                                .changeFavorite(productmodel.id);
+                          },
+                          icon: Icon(
+                              color: Shopcubit.get(context)
+                                          .favorites[productmodel.id] ??
+                                      false
+                                  ? Colors.redAccent[700]
+                                  : null,
+                              Shopcubit.get(context)
+                                          .favorites[productmodel.id] ??
+                                      false
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined))
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -240,22 +276,20 @@ class ProductsPage extends StatelessWidget {
           height: 80,
           width: 80,
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(
-                    catmodel.image,
-                  ),
-                  fit: BoxFit.cover),
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: Colors.grey, width: 2)),
-          // child: Image(
-          //   image: NetworkImage(catmodel.image),
-          //   height: 70,
-          //   width: 70,
-          //   fit: BoxFit.cover,
-          // ),
+            boxShadow: const [
+              BoxShadow(
+                  blurRadius: 20, color: Colors.black, offset: Offset(4, 15))
+            ],
+            image: DecorationImage(
+                image: NetworkImage(
+                  catmodel.image,
+                ),
+                fit: BoxFit.cover),
+            borderRadius: BorderRadius.circular(50),
+          ),
         ),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),

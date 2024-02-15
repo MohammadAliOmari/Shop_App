@@ -6,7 +6,6 @@ import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/layout/shop_layout.dart';
 import 'package:shop_app/modules/login_page.dart';
-import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/constants/colors.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
@@ -41,7 +40,7 @@ class RegisterPage extends StatelessWidget {
               navigateToAndFinish(context, const ShopLayout());
             });
           } else {
-            print(state.registermodel!.message);
+            debugPrint(state.registermodel!.message);
             showToast(
               massage: state.registermodel!.message!,
               toastState: ChoseState.error,

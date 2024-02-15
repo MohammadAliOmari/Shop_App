@@ -22,85 +22,91 @@ class ProfilePage extends StatelessWidget {
         emailcontroller.text = model.data!.email!;
         phoncontroller.text = model.data!.phone!;
         return Shopcubit.get(context).userModel != null
-            ? Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Form(
-                  key: kform,
-                  child: Column(
-                    children: [
-                      defualtTextForm(
+            ? SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: kform,
+                    child: Column(
+                      children: [
+                        const Image(
+                            image: AssetImage('assets/Profile.png'),
+                            height: 300),
+                        defualtTextForm(
+                            radius: 20,
+                            controller: namecontroller,
+                            type: TextInputType.text,
+                            label: 'Name',
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'your name must not be empty';
+                              }
+                              return null;
+                            },
+                            prefixIcon: Icons.person),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        defualtTextForm(
+                            radius: 20,
+                            controller: emailcontroller,
+                            type: TextInputType.emailAddress,
+                            label: 'Email',
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'your email must not be empty';
+                              }
+                              return null;
+                            },
+                            prefixIcon: Icons.email_outlined),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        defualtTextForm(
                           radius: 20,
-                          controller: namecontroller,
-                          type: TextInputType.text,
-                          label: 'Name',
+                          controller: phoncontroller,
+                          type: TextInputType.number,
+                          label: 'phone',
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'your name must not be empty';
+                              return 'your phone must not be empty';
                             }
                             return null;
                           },
-                          prefixIcon: Icons.person),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      defualtTextForm(
-                          radius: 20,
-                          controller: emailcontroller,
-                          type: TextInputType.emailAddress,
-                          label: 'Email',
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'your email must not be empty';
-                            }
-                            return null;
-                          },
-                          prefixIcon: Icons.email_outlined),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      defualtTextForm(
-                        radius: 20,
-                        controller: phoncontroller,
-                        type: TextInputType.number,
-                        label: 'phone',
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'your phone must not be empty';
-                          }
-                          return null;
-                        },
-                        prefixIcon: Icons.phone_android,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      if (state is UpdateUserDataLodingState)
-                        const LinearProgressIndicator(),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      defualtButton(
-                          text: 'Update Profile',
+                          prefixIcon: Icons.phone_android,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (state is UpdateUserDataLodingState)
+                          const LinearProgressIndicator(),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        defualtButton(
+                            text: 'Update Profile',
+                            onPressed: () {
+                              if (kform.currentState!.validate()) {
+                                Shopcubit.get(context).updateUserData(
+                                    email: emailcontroller.text,
+                                    name: namecontroller.text,
+                                    phone: phoncontroller.text);
+                              }
+                            },
+                            raduis: 20),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        defualtButton(
+                          text: 'Sign Out',
                           onPressed: () {
-                            if (kform.currentState!.validate()) {
-                              Shopcubit.get(context).updateUserData(
-                                  email: emailcontroller.text,
-                                  name: namecontroller.text,
-                                  phone: phoncontroller.text);
-                            }
+                            Shopcubit.get(context).signOut(context);
                           },
-                          raduis: 20),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      defualtButton(
-                        text: 'Sign Out',
-                        onPressed: () {
-                          Shopcubit.get(context).signOut(context);
-                        },
-                        raduis: 20,
-                      )
-                    ],
+                          raduis: 20,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               )
