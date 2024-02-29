@@ -15,12 +15,23 @@ class SearchPage extends StatelessWidget {
       builder: (context, state) {
         Shopcubit cubit = Shopcubit.get(context);
         return Scaffold(
-          appBar: AppBar(),
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+                onPressed: () {
+                  cubit.searchModel = null;
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back)),
+          ),
           body: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                defualtTextForm(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: defualtTextForm(
                   radius: 20,
                   textFormColor: primaryColor,
                   iconColor: primaryColor,
@@ -38,26 +49,51 @@ class SearchPage extends StatelessWidget {
                     cubit.searchProduct(text);
                   },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                if (state is SearchProductLodingState)
-                  const LinearProgressIndicator(color: primaryColor),
-                if (state is SearchProductSuccessState)
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          return productitem(
-                              cubit.searchModel!.data!.data![index], context,
-                              isSearch: false);
-                        },
-                        separatorBuilder: (context, index) {
-                          return myDivider();
-                        },
-                        itemCount: cubit.searchModel!.data!.data!.length),
-                  )
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              if (state is SearchProductLodingState)
+                const LinearProgressIndicator(color: primaryColor),
+              cubit.searchModel != null
+                  ? Expanded(
+                      child: ListView.separated(
+                          itemBuilder: (context, index) {
+                            return productitem(
+                                cubit.searchModel!.data!.data![index], context,
+                                isSearch: false);
+                          },
+                          separatorBuilder: (context, index) {
+                            return myDivider();
+                          },
+                          itemCount: cubit.searchModel!.data!.data!.length),
+                    )
+                  : const Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Text(
+                              'Search For Product....',
+                              style: TextStyle(
+                                  fontSize: 29,
+                                  fontWeight: FontWeight.bold,
+                                  color: primaryColor),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Image(
+                            image: AssetImage(
+                              'assets/search.gif',
+                            ),
+                            width: 400,
+                          ),
+                        ],
+                      ),
+                    ),
+            ]),
           ),
         );
       },

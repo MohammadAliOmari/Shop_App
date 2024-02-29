@@ -6,4 +6,5 @@ const String profile = 'profile';
 const String register = 'register';
 const String updateprofile = 'update-profile';
 const String search = 'products/search';
+const String getcategories = 'products';
 String? token;

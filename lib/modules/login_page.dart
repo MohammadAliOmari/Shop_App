@@ -30,14 +30,14 @@ class LogIn extends StatelessWidget {
             CacheHelper.saveData(
                     key: 'token', value: state.loginModel!.data!.token)
                 .then((value) {
-              token = state.loginModel!.data!.token;
-              navigateToAndFinish(context, const ShopLayout());
               showToast(
                 massage: state.loginModel!.message!,
                 toastState: ChoseState.success,
               );
+              token = state.loginModel!.data!.token;
+              navigateToAndFinish(context, const ShopLayout());
             });
-          } else {
+          } else if (state is LoginErrorState) {
             debugPrint(state.loginModel!.message);
             showToast(
               massage: state.loginModel!.message!,

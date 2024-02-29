@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/search_model.dart';
+import 'package:shop_app/models/single_categorie_model.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/favorite_model.dart';
@@ -98,7 +99,7 @@ class Shopcubit extends Cubit<ShopStates> {
   }
 
 //-----------------------------------------------------getHomeData
-  Map<int?, bool?> favorites = {};
+  Map<num?, bool?> favorites = {};
   HomeModel? homeModel;
   void getHomeData() {
     emit(HomesuccessState());
@@ -133,7 +134,7 @@ class Shopcubit extends Cubit<ShopStates> {
 
 //-----------------------------------------------------changeFavorite
   FavoriteModel? favoriteModel;
-  void changeFavorite(int productId) {
+  void changeFavorite(num productId) {
     favorites[productId] = !favorites[productId]!;
     emit(FavoritesLodingState());
     DioHelper.postData(
@@ -217,6 +218,24 @@ class Shopcubit extends Cubit<ShopStates> {
     }).catchError((error) {
       print(error);
       emit(SearchProductErrorState());
+    });
+  }
+
+//-----------------------------------------------------GetSingleCategories
+  GetSingleCategoriesModel? singleCategoriesModel;
+  void getSingleCategories({required num id}) {
+    emit(GetSingleCategoriesLodingState());
+    DioHelper.getData(
+      url: getcategories,
+      token: token,
+      query: {'category_id': id},
+    ).then((value) {
+      singleCategoriesModel = GetSingleCategoriesModel.fromJson(value.data);
+      print(singleCategoriesModel?.data?.data![0].name);
+      emit(GetSingleCategoriesSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetSingleCategoriesErrorState());
     });
   }
 

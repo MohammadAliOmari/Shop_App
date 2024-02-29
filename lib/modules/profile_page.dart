@@ -17,10 +17,12 @@ class ProfilePage extends StatelessWidget {
     return BlocConsumer<Shopcubit, ShopStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        LoginModel? model = Shopcubit.get(context).userModel;
-        namecontroller.text = model!.data!.name!;
-        emailcontroller.text = model.data!.email!;
-        phoncontroller.text = model.data!.phone!;
+        namecontroller.text =
+            Shopcubit.get(context).userModel?.data?.name! ?? '';
+        emailcontroller.text =
+            Shopcubit.get(context).userModel?.data?.email! ?? '';
+        phoncontroller.text =
+            Shopcubit.get(context).userModel?.data?.phone! ?? '';
         return Shopcubit.get(context).userModel != null
             ? SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),

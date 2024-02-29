@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
 
   final Widget startWidget;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

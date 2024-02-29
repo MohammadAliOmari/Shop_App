@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/modules/single_categorie_page.dart';
 import 'package:shop_app/shared/cubit/cubit.dart';
 import 'package:shop_app/shared/cubit/states.dart';
 import 'package:shop_app/models/categories_model.dart';
@@ -29,7 +30,7 @@ class ProductsPage extends StatelessWidget {
         Shopcubit cubit = Shopcubit.get(context);
         return cubit.homeModel != null
             ? homebuilditem(cubit.homeModel, cubit.categoriesModel, context)
-            : const Center(child: CircularProgressIndicator());
+            : const LoadingHomeScreen();
       },
     );
   }
@@ -43,6 +44,7 @@ class ProductsPage extends StatelessWidget {
           CarouselSlider(
               items: model!.data.banners
                   .map((e) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
                         width: double.infinity,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -105,8 +107,26 @@ class ProductsPage extends StatelessWidget {
                   child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return buildCategoreisItem(
-                            categoriesModel.data.data[index]);
+                        return GestureDetector(
+                          onTap: () {
+                            Shopcubit.get(context).getSingleCategories(
+                                id: Shopcubit.get(context)
+                                    .categoriesModel!
+                                    .data
+                                    .data[index]
+                                    .id);
+                            navigateTo(
+                                context,
+                                SingleCategoriePage(
+                                    categorieName: Shopcubit.get(context)
+                                        .categoriesModel!
+                                        .data
+                                        .data[index]
+                                        .name));
+                          },
+                          child: buildCategoreisItem(
+                              categoriesModel.data.data[index]),
+                        );
                       },
                       separatorBuilder: (context, index) => const SizedBox(
                             width: 10,
@@ -148,7 +168,7 @@ class ProductsPage extends StatelessWidget {
           Container(
             color: Colors.white,
             child: GridView.count(
-              childAspectRatio: 1 / 1.6,
+              childAspectRatio: 1 / 1.65,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               mainAxisSpacing: 1,
@@ -278,7 +298,7 @@ class ProductsPage extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: const [
               BoxShadow(
-                  blurRadius: 20, color: Colors.black, offset: Offset(4, 15))
+                  blurRadius: 20, color: Colors.grey, offset: Offset(4, 15))
             ],
             image: DecorationImage(
                 image: NetworkImage(

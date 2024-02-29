@@ -14,15 +14,15 @@ class FavoritePage extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         Shopcubit cubit = Shopcubit.get(context);
-        return cubit.getFavoriteModel!.data?.data?.isEmpty ?? true
+        return cubit.getFavoriteModel?.data?.data?.isEmpty ?? true
             ? const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
                     child: Text(
-                      'No Favorites Item found',
+                      'No Favorite Item Yet',
                       style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 29,
                           fontWeight: FontWeight.bold,
                           color: primaryColor),
                     ),
@@ -34,7 +34,7 @@ class FavoritePage extends StatelessWidget {
                     image: AssetImage(
                       'assets/love.gif',
                     ),
-                    width: 150,
+                    width: 400,
                   ),
                 ],
               )

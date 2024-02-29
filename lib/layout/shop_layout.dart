@@ -18,7 +18,6 @@ class ShopLayout extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           extendBody: true,
           appBar: AppBar(
-            scrolledUnderElevation: 0,
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: const Text(

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/shared/constants/colors.dart';
@@ -165,7 +166,7 @@ Widget productitem(model, BuildContext context, {bool isSearch = true}) {
             alignment: Alignment.bottomLeft,
             children: [
               Image(
-                image: NetworkImage(model.image),
+                image: NetworkImage(model.image ?? ''),
                 width: 120,
                 height: 120,
               ),
@@ -253,4 +254,292 @@ Widget productitem(model, BuildContext context, {bool isSearch = true}) {
       ),
     ),
   );
+}
+
+class LoadingHomeScreen extends StatelessWidget {
+  const LoadingHomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CarouselSlider(
+              items: [
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[200],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[200],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[200],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[200],
+                  ),
+                ),
+              ],
+              options: CarouselOptions(
+                height: 200,
+                initialPage: 0,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 1),
+                autoPlayAnimationDuration: const Duration(seconds: 2),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                scrollDirection: Axis.horizontal,
+                viewportFraction: 1,
+              )),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
+                    const Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(60),
+                          boxShadow: const [
+                            BoxShadow(blurRadius: 10, color: Colors.black)
+                          ]),
+                      height: 5,
+                      width: 50,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 90,
+                  child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.all(5),
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(
+                            width: 10,
+                          ),
+                      itemCount: 8),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
+                    const Text(
+                      'New Product',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: const [
+                            BoxShadow(blurRadius: 10, color: Colors.black)
+                          ]),
+                      height: 5,
+                      width: 50,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            color: Colors.white,
+            child: GridView.count(
+              childAspectRatio: 1 / 1.65,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              mainAxisSpacing: 1,
+              crossAxisSpacing: 3,
+              crossAxisCount: 2,
+              children: List.generate(8, (index) {
+                return Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 20,
+                              offset: Offset(-4, 10))
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          alignment: Alignment.bottomLeft,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(20)),
+                              width: double.infinity,
+                              height: 200,
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(20)),
+                                height: 20,
+                                width: 300,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(20)),
+                                height: 20,
+                                width: 100,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class LodingSinglecategoriesScreen extends StatelessWidget {
+  const LodingSinglecategoriesScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: GridView.count(
+        childAspectRatio: 1 / 1.65,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        mainAxisSpacing: 1,
+        crossAxisSpacing: 3,
+        crossAxisCount: 2,
+        children: List.generate(8, (index) {
+          return Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: const [
+                BoxShadow(
+                    color: Colors.black, blurRadius: 20, offset: Offset(-4, 10))
+              ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(20)),
+                        width: double.infinity,
+                        height: 200,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(20)),
+                          height: 20,
+                          width: 300,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(20)),
+                          height: 20,
+                          width: 100,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
 }

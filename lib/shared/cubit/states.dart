@@ -77,3 +77,9 @@ class SearchProductErrorState extends ShopStates {}
 class SearchProductLodingState extends ShopStates {}
 
 class SearchProductSuccessState extends ShopStates {}
+
+class GetSingleCategoriesErrorState extends ShopStates {}
+
+class GetSingleCategoriesLodingState extends ShopStates {}
+
+class GetSingleCategoriesSuccessState extends ShopStates {}

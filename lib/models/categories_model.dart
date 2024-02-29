@@ -96,7 +96,7 @@ class Data {
 }
 
 class Datum {
-  int id;
+  num id;
   String name;
   String image;
 
