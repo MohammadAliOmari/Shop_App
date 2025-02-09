@@ -155,21 +155,21 @@ class RegisterPage extends StatelessWidget {
                   ),
                   state is! RegisterLodingState
                       ? defualtButton(
-                          text: 'Rgister',
+                          text: 'Register',
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               Shopcubit.get(context).userRegister(
-                                  name: namecontroller.text,
-                                  phone: phonecontroller.text,
-                                  email: remailcontroller.text,
-                                  password: passwordcontroller.text);
+                                  name: namecontroller.text.trim(),
+                                  phone: phonecontroller.text.trim(),
+                                  email: remailcontroller.text.trim(),
+                                  password: passwordcontroller.text.trim());
                               log(namecontroller.text);
                               log(phonecontroller.text);
                               log(remailcontroller.text);
                               log(passwordcontroller.text);
                             }
                           },
-                          raduis: 10,
+                          raduis: 20,
                         )
                       : const Center(child: CircularProgressIndicator()),
                   Row(

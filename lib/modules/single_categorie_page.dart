@@ -62,7 +62,7 @@ class SingleCategoriePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
@@ -99,7 +99,7 @@ class SingleCategoriePage extends StatelessWidget {
                         margin: const EdgeInsets.all(5),
                         color: Colors.white,
                         child: GridView.count(
-                          childAspectRatio: 1 / 1.65,
+                          childAspectRatio: 1 / 1.7,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           mainAxisSpacing: 1,

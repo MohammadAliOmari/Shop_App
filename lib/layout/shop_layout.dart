@@ -18,14 +18,18 @@ class ShopLayout extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           extendBody: true,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            automaticallyImplyLeading: false,
+            scrolledUnderElevation: 0,
+            backgroundColor: Colors.white,
             elevation: 0,
             title: const Text(
               'Shop App',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             ),
             actions: [
               IconButton(
+                color: Colors.black,
                 onPressed: () {
                   navigateTo(context, SearchPage());
                 },

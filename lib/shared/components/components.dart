@@ -303,7 +303,7 @@ class LoadingHomeScreen extends StatelessWidget {
                 reverse: false,
                 autoPlay: true,
                 autoPlayInterval: const Duration(seconds: 1),
-                autoPlayAnimationDuration: const Duration(seconds: 2),
+                autoPlayAnimationDuration: const Duration(seconds: 1),
                 autoPlayCurve: Curves.fastOutSlowIn,
                 scrollDirection: Axis.horizontal,
                 viewportFraction: 1,
@@ -473,7 +473,9 @@ class LoadingHomeScreen extends StatelessWidget {
 }
 
 class LodingSinglecategoriesScreen extends StatelessWidget {
-  const LodingSinglecategoriesScreen({super.key});
+  const LodingSinglecategoriesScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -486,7 +488,7 @@ class LodingSinglecategoriesScreen extends StatelessWidget {
         mainAxisSpacing: 1,
         crossAxisSpacing: 3,
         crossAxisCount: 2,
-        children: List.generate(8, (index) {
+        children: List.generate(4, (index) {
           return Padding(
             padding: const EdgeInsets.all(5.0),
             child: Container(

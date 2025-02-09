@@ -24,20 +24,20 @@ class LogIn extends StatelessWidget {
     return BlocConsumer<Shopcubit, ShopStates>(
       listener: (context, state) {
         if (state is LoginSuccessState) {
-          if (state.loginModel!.status!) {
-            debugPrint(state.loginModel!.message);
-            debugPrint(state.loginModel!.data!.token);
-            CacheHelper.saveData(
-                    key: 'token', value: state.loginModel!.data!.token)
-                .then((value) {
-              showToast(
-                massage: state.loginModel!.message!,
-                toastState: ChoseState.success,
-              );
-              token = state.loginModel!.data!.token;
-              navigateToAndFinish(context, const ShopLayout());
-            });
-          } else if (state is LoginErrorState) {
+          debugPrint(state.loginModel!.message);
+          debugPrint(state.loginModel!.data!.token);
+          CacheHelper.saveData(
+                  key: 'token', value: state.loginModel!.data!.token)
+              .then((value) {
+            showToast(
+              massage: state.loginModel!.message!,
+              toastState: ChoseState.success,
+            );
+            token = state.loginModel!.data!.token;
+            navigateToAndFinish(context, const ShopLayout());
+          }).catchError((error) {});
+
+          if (state is LoginErrorState) {
             debugPrint(state.loginModel!.message);
             showToast(
               massage: state.loginModel!.message!,
@@ -98,7 +98,7 @@ class LogIn extends StatelessWidget {
                     iconColor: primaryColor,
                     controller: passwordcontroller,
                     type: TextInputType.visiblePassword,
-                    label: 'Passowrd',
+                    label: 'Password',
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'enter your password';
@@ -129,17 +129,17 @@ class LogIn extends StatelessWidget {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               Shopcubit.get(context).userLogin(
-                                  email: emailcontroller.text,
-                                  password: passwordcontroller.text);
+                                  email: emailcontroller.text.trim(),
+                                  password: passwordcontroller.text.trim());
                             }
                           },
-                          raduis: 10,
+                          raduis: 20,
                         )
                       : const Center(child: CircularProgressIndicator()),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Dont\'t have an account ?'),
+                      const Text('Don\'t have an account ?'),
                       TextButton(
                           onPressed: () {
                             navigateTo(context, RegisterPage());

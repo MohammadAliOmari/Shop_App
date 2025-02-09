@@ -28,6 +28,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
         actions: [
           TextButton(
             onPressed: () {
@@ -41,7 +43,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: Column(
           children: [
             Expanded(
@@ -65,33 +67,36 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SmoothPageIndicator(
-                    count: onBoardingPage.length,
-                    controller: boardingcontroller,
-                    effect: const ExpandingDotsEffect(
-                        dotColor: Colors.grey,
-                        dotHeight: 10,
-                        dotWidth: 10,
-                        activeDotColor: primaryColor)),
-                FloatingActionButton(
-                  shape: const CircleBorder(),
-                  backgroundColor: primaryColor,
-                  onPressed: () {
-                    isLast
-                        ? submit()
-                        : boardingcontroller.nextPage(
-                            duration: const Duration(milliseconds: 1000),
-                            curve: Curves.easeInOut);
-                  },
-                  child: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
-                  ),
-                )
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SmoothPageIndicator(
+                      count: onBoardingPage.length,
+                      controller: boardingcontroller,
+                      effect: const ExpandingDotsEffect(
+                          dotColor: Colors.grey,
+                          dotHeight: 10,
+                          dotWidth: 10,
+                          activeDotColor: primaryColor)),
+                  FloatingActionButton(
+                    shape: const CircleBorder(),
+                    backgroundColor: primaryColor,
+                    onPressed: () {
+                      isLast
+                          ? submit()
+                          : boardingcontroller.nextPage(
+                              duration: const Duration(milliseconds: 1000),
+                              curve: Curves.easeInOut);
+                    },
+                    child: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
             )
           ],
         ),
